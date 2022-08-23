@@ -2,7 +2,7 @@ import React from 'react'
 
 const Letters = () => {
   return (
-    <div>Letters</div>
+    <div></div>
   )
 }
 

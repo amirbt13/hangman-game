@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 
+// CSS
+import "./App.css"
+
 // Components
 import Letters from "./components/Letters";
 import Blanks from "./components/Blanks";
@@ -11,21 +14,25 @@ function App() {
 
   const [words, setWords] = useState([])
 
-  const [guess, setGuess] = useState("")
+  const random = Math.floor(Math.random() * 3)
+
+  const randomWord = words[random]
 
   useEffect(() => {
     setWords(data)
   }, [])
 
-  useEffect(() => {
-    console.log(words)
-  },[words])
+  //  useEffect(() => {
+  //    console.log(typeof words)
+  //    console.log(Object.prototype.toString.call(words))
+  // },[words])
 
   return (
     <div className="App">
+      <h1>Hangman</h1>
 
       <Letters words={words}/>
-      <Blanks />
+      <Blanks word={randomWord}/>
     
     </div>
   );

@@ -1,0 +1,15 @@
+.blankDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.blank {
+    padding: 3px;
+    margin: 3px;
+    background-color: silver;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+}
