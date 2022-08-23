@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
+
+// Components
+import Letters from "./components/Letters";
+import Blanks from "./components/Blanks";
+
+import { data } from './data'
+
 
 function App() {
+
+  const [words, setWords] = useState([])
+
+  const [guess, setGuess] = useState("")
+
+  useEffect(() => {
+    setWords(data)
+  }, [])
+
+  useEffect(() => {
+    console.log(words)
+  },[words])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <Letters words={words}/>
+      <Blanks />
+    
     </div>
   );
 }
