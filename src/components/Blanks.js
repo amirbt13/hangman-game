@@ -1,15 +1,17 @@
 import React from 'react'
+import uniqid from 'uniqid'
 
-const Blanks = ({ word }) => {
+const Blanks = ({ answerLetters }) => {
 
-  //const [guess, setGuess] = useState("")
-  const count = word && word.name.split('')
-  
-  word && console.log(count)
+  //console.log(answerLetters)
   
   return (
     <div className='blankDiv'>
-      {word && count.map(letter => <div className='blank'>_</div>)}
+      { answerLetters ? 
+      answerLetters.map(letter => <div key={uniqid()} className='blank'>_</div>)
+    :
+    <h1>Loading</h1>
+    }
       </div>
   )
 }

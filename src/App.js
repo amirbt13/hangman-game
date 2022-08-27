@@ -12,28 +12,53 @@ import { data } from './data'
 
 function App() {
 
-  const [words, setWords] = useState([])
+  const [words, setWords] = useState({
+    words: '',
+    isLoaded: false
+  })
 
-  const random = Math.floor(Math.random() * 3)
+  const [answerLetters, setAnswerLetters] = useState([])
 
-  const randomWord = words[random]
 
+  
   useEffect(() => {
-    setWords(data)
+    const getWords = () => {
+      setWords({
+
+        words: data,
+        isLoaded: true
+        
+      })
+      //console.log(words)
+    }
+    getWords()
   }, [])
 
-  //  useEffect(() => {
-  //    console.log(typeof words)
-  //    console.log(Object.prototype.toString.call(words))
-  // },[words])
+  useEffect(() => {
+
+        if(words.isLoaded){
+          //console.log(words.words.length)
+          const randomIndex = Math.floor(Math.random() * words.words.length)
+          //console.log(randomIndex)
+          const randomAnswer = words.words[randomIndex]
+          //console.log(randomAnswer)
+          const randomAnswerLetters = Object.values(randomAnswer)[0].split('')
+          //console.log(randomAnswerLetters)
+          setAnswerLetters([
+            ...randomAnswerLetters
+          ])
+    }
+      //console.log(answerLetters)
+  }, [words])
+  
 
   return (
     <div className="App">
       <h1>Hangman</h1>
 
-      <Letters words={words}/>
-      <Blanks word={randomWord}/>
-    
+      <Letters answerLetters={answerLetters}/>
+      <Blanks answerLetters={answerLetters}/>
+      
     </div>
   );
 }

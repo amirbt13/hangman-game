@@ -1,3 +1,9 @@
+h1 {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
 .blankDiv {
     display: flex;
     flex-direction: row;
@@ -12,4 +18,25 @@
     width: 2rem;
     height: 2rem;
     text-align: center;
+    border-radius: 3px;
+} 
+
+.lettersDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.letter {
+    background-color: rgb(39, 91, 214);
+    color: #fff;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
 }
