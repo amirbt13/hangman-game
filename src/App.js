@@ -24,6 +24,11 @@ function App() {
   const [answerLetters, setAnswerLetters] = useState([])
 
 
+  const [guessWord, setGuessWord] = useState([])
+
+  const [win, setWin] = useState(false)
+
+
   
   useEffect(() => {
     const getWords = () => {
@@ -38,6 +43,8 @@ function App() {
     getWords()
   }, [])
 
+
+
   useEffect(() => {
 
         if(words.isLoaded){
@@ -48,15 +55,9 @@ function App() {
           //console.log(randomAnswer)
           const randomAnswerLetters = Object.values(randomAnswer)[0].split('')
           //console.log(randomAnswerLetters)
-          const randomAnswerObj = randomAnswerLetters.map(letter => {
-            return {
-              value: letter,
-              isSelected: false,
-              id: uniqid()
-            }
-          })
+          
           setAnswerLetters([
-            ...randomAnswerObj
+            ...randomAnswerLetters
           ])
     }
       console.log("effecte update roo words")
@@ -64,24 +65,41 @@ function App() {
 
       // eslint-disable-next-line 
   }, [words])
+
+
+
+  useEffect(() => {
+    let sample = [] 
+    for(let i = 0; i < answerLetters.length; i++){
+      sample.push("")
+    }
+    const guessObj = sample.map(guessItem => {
+      return {
+        value: guessItem,
+        isSelected: false,
+        id: uniqid()
+      }
+    })
+    setGuessWord([...guessObj])
+  }, [answerLetters])
   
 
 
   const selectHandler = (id) => {
     //console.log(id)
 
-    setAnswerLetters(prevAnswerLetters => {
+    setGuessWord(prevGuessWord => {
 
       //console.log(prevAnswerLetters)
-      return prevAnswerLetters.map(letter => {
+      return prevGuessWord.map(letter => {
 
-       if (letter.id === id ){
+       if (letter.id === id){
         return {
           ...letter,
           isSelected: true
         }
 
-       } else {
+      } else {
         
         return {
           ...letter,
@@ -94,14 +112,70 @@ function App() {
     console.log("select handler")
   }
 
+  const dblClickHandler = (id) => {
+
+    setGuessWord(prevGuessWord => {
+
+      return prevGuessWord.map(letter => {
+        
+        if(letter.id === id && letter.value !== ""){
+          return {
+            ...letter,
+            value: ""
+          }
+        } else {
+          return letter
+        }
+      })
+    })
+  }
+
+
+  const chooseHandler = (value) => {
+    setGuessWord(prevGuessWord => {
+     return prevGuessWord.map(item => {
+        if(item.isSelected === true){
+          return {
+            ...item,
+            value: value
+          }
+        } else {
+          return item 
+        }
+      })
+    })
+  }
+
+  useEffect(() => {
+    const answerWordStr = answerLetters.reduce((i, j) => {
+      return i + j
+    }, "")
+    const guessWordStr = guessWord.reduce((total, item) => {
+      return total + item.value
+    }, "")
+
+    if(guessWordStr !== "" && answerWordStr === guessWordStr){
+      setWin(true)
+    } else {
+      setWin(false)
+    }
+    
+  }, [guessWord])
+
 
 console.log("app render akhar")
   return (
     <div className="App">
       <h1>Hangman</h1>
 
-      <Letters answerLetters={answerLetters}/>
-      <Blanks answerLetters={answerLetters} selectHandler={selectHandler}/>
+      <Letters answerLetters={answerLetters} chooseHandler={chooseHandler}/>
+      <Blanks 
+          answerLetters={answerLetters} 
+          selectHandler={selectHandler}
+          dblClickHandler={dblClickHandler} 
+          guessWord={guessWord}/>
+
+          {win && <h1>You Won!</h1> }
  
     </div>
   );

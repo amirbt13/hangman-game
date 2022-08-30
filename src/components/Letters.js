@@ -3,9 +3,10 @@ import uniqid from 'uniqid'
 
 
 import { getRandomLetters, shuffleArray } from '../alphabet'
+import Letter from './Letter'
 
 
-const Letters = ({ answerLetters }) => {
+const Letters = ({ answerLetters, chooseHandler }) => {
 
   const [letters, setLetters] = useState([])
 
@@ -21,14 +22,22 @@ const Letters = ({ answerLetters }) => {
     }
   }
     for(let i = 0; i < answerLetters.length; i++){
-     randomLetters.push(answerLetters[i].value)
+     randomLetters.push(answerLetters[i])
     }
 
     // console.log(randomLetters + " before")
-    // shuffleArray(randomLetters)
+     shuffleArray(randomLetters)
     // console.log(randomLetters + " after")
 
-    setLetters([...randomLetters])
+    const objRandomLetters = randomLetters.map(letter => {
+      return {
+        value: letter,
+        id: uniqid()
+      }
+    })
+
+
+    setLetters([...objRandomLetters])
 
   }, [answerLetters])
 
@@ -37,7 +46,12 @@ const Letters = ({ answerLetters }) => {
   //console.log(answerLetters)
   return (
     <div className='lettersDiv'>
-     {letters.map(letter => <div key={uniqid()} className='letter'>{letter}</div>)}
+     {letters.map(letter => <Letter 
+                              key={letter.id} 
+                              chooseHandler={chooseHandler}
+                              letter={letter}
+                                />)}
+                          
     </div>
   )
 }
