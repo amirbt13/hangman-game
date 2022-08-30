@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import uniqid from 'uniqid'
+
 // CSS
 import "./App.css"
 
@@ -7,10 +9,12 @@ import "./App.css"
 import Letters from "./components/Letters";
 import Blanks from "./components/Blanks";
 
+// Data
 import { data } from './data'
 
 
 function App() {
+  console.log("app render avval")
 
   const [words, setWords] = useState({
     words: '',
@@ -29,7 +33,7 @@ function App() {
         isLoaded: true
         
       })
-      //console.log(words)
+      console.log("effecte mount app")
     }
     getWords()
   }, [])
@@ -44,21 +48,61 @@ function App() {
           //console.log(randomAnswer)
           const randomAnswerLetters = Object.values(randomAnswer)[0].split('')
           //console.log(randomAnswerLetters)
+          const randomAnswerObj = randomAnswerLetters.map(letter => {
+            return {
+              value: letter,
+              isSelected: false,
+              id: uniqid()
+            }
+          })
           setAnswerLetters([
-            ...randomAnswerLetters
+            ...randomAnswerObj
           ])
     }
-      //console.log(answerLetters)
+      console.log("effecte update roo words")
+
+
+      // eslint-disable-next-line 
   }, [words])
   
 
+
+  const selectHandler = (id) => {
+    //console.log(id)
+
+    setAnswerLetters(prevAnswerLetters => {
+
+      //console.log(prevAnswerLetters)
+      return prevAnswerLetters.map(letter => {
+
+       if (letter.id === id ){
+        return {
+          ...letter,
+          isSelected: true
+        }
+
+       } else {
+        
+        return {
+          ...letter,
+          isSelected: false
+        }
+       }
+      })
+      
+    })
+    console.log("select handler")
+  }
+
+
+console.log("app render akhar")
   return (
     <div className="App">
       <h1>Hangman</h1>
 
       <Letters answerLetters={answerLetters}/>
-      <Blanks answerLetters={answerLetters}/>
-      
+      <Blanks answerLetters={answerLetters} selectHandler={selectHandler}/>
+ 
     </div>
   );
 }

@@ -40,3 +40,7 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
 }
+
+.selected {
+    border: 1px solid red;
+}

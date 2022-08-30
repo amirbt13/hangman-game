@@ -11,7 +11,7 @@ export const getRandomLetters = (levelNum) => {
       const randomNum = Math.floor(Math.random() * 26)
       letters.push(alphabet[randomNum])
     }
-
+    
     return letters
   }
 

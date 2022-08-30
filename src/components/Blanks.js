@@ -1,14 +1,20 @@
-import React from 'react'
-import uniqid from 'uniqid'
+import React, { useState } from 'react'
 
-const Blanks = ({ answerLetters }) => {
+import Blank from './Blank'
 
-  //console.log(answerLetters)
-  
+
+const Blanks = ({ answerLetters, selectHandler }) => {
+
+
+  //console.log("load blanks")
   return (
     <div className='blankDiv'>
       { answerLetters ? 
-      answerLetters.map(letter => <div key={uniqid()} className='blank'>_</div>)
+      answerLetters.map(letter => <Blank 
+                                      key={letter.id} 
+                                      letter={letter}
+                                      selectHandler={selectHandler}
+                                      />)
     :
     <h1>Loading</h1>
     }
