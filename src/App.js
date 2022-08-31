@@ -10,7 +10,7 @@ import "./App.css"
 import Letters from "./components/Letters";
 import Blanks from "./components/Blanks";
 
-// Data
+// Raw Data
 import { data } from './data'
 
 // helper
@@ -34,6 +34,8 @@ function App() {
 
   const [win, setWin] = useState(false)
 
+  const [clue, setClue] = useState("")
+
 
   // getting word from data when page loads
   useEffect(() => {
@@ -44,7 +46,7 @@ function App() {
         isLoaded: true
         
       })
-      console.log("effecte mount app")
+      console.log("effecte loade words-on mount")
     }
     getWords()
   }, [])
@@ -66,7 +68,7 @@ function App() {
             ...randomAnswerLetters
           ])
     }
-      console.log("effecte update roo words")
+      console.log("effecte setting answerLetters-update words")
 
 
       // eslint-disable-next-line 
@@ -100,6 +102,7 @@ function App() {
 
     setGuessWord([...guessObj])
 
+    console.log("effecte create guessWord baraya blanks-update e answerLatters")
   }, [answerLetters])
 
 
@@ -133,6 +136,7 @@ function App() {
 
     setLetters([...objRandomLetters])
 
+    console.log("effecte randomLetters-update answerLetters")
   }, [answerLetters])
 
 
@@ -257,14 +261,41 @@ function App() {
       setWin(false)
     }
     
+    console.log("effecte teste win-guess word update")
   }, [guessWord])
 
 
+  useEffect(() => {
+    if(answerLetters.length > 0){
 
+    const answerWordStr = answerLetters.reduce((i, j) => {
+      return i + j
+    }, "")
+    //console.log(data)
+    console.log(answerLetters)
+    console.log(answerWordStr)
+
+    const clueArr = data.filter(item => item.name === answerWordStr)
+
+
+    //console.log(clueArr)
+
+    const clueObj = clueArr[0]
+
+    //console.log(clueObj)
+    
+    setClue(clueObj.clue)
+  }
+
+    console.log("effecte clue- update answerLetters")
+  }, [answerLetters])
+
+
+console.log("app render akhar")
   return (
     <div className="App">
       <h1>Hangman</h1>
-
+      <h3>{clue}</h3>
       <Letters answerLetters={answerLetters}
                chooseHandler={chooseHandler}
                letters={letters}/>
