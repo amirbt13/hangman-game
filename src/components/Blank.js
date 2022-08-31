@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 const Blank = ({ letter, selectHandler, dblClickHandler}) => {
 
@@ -10,7 +10,7 @@ const Blank = ({ letter, selectHandler, dblClickHandler}) => {
     <div 
         className={`blank ${letter.isSelected && "selected"}`} 
         onClick={() => selectHandler(letter.id)}
-        onDoubleClick={() => dblClickHandler(letter.id)} >
+        onDoubleClick={() => dblClickHandler(letter.value, letter.id)} >
       {letter.value}
     </div>
   )
