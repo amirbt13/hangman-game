@@ -1,7 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
-
-// id
-import uniqid from 'uniqid'
+import { useState, useEffect } from 'react'
 
 // CSS
 import "./App.css"
@@ -13,12 +10,9 @@ import Blanks from "./components/Blanks";
 // Raw Data
 import { data } from './data'
 
-// helper
-import { getRandomLetters, shuffleArray } from './alphabet'
-
 
 function App() {
-  console.log("app render avval")
+  //console.log("app render avval")
 
   const [words, setWords] = useState({
     words: '',
@@ -46,7 +40,7 @@ function App() {
         isLoaded: true
         
       })
-      console.log("effecte loade words-on mount")
+      //console.log("effecte loade words-on mount")
     }
     getWords()
   }, [])
@@ -68,182 +62,13 @@ function App() {
             ...randomAnswerLetters
           ])
     }
-      console.log("effecte setting answerLetters-update words")
+      //console.log("effecte setting answerLetters-update words")
 
 
       // eslint-disable-next-line 
   }, [words])
 
-
-  // creating guessWord (blanks) when answer is done
-  useEffect(() => {
-    let sample = [] 
-    for(let i = 0; i < answerLetters.length; i++){
-      sample.push({
-        value: "",
-        isSelected: false,
-        id: uniqid(),
-        index: i
-      })
-    }
-    const guessObj = sample.map(guessItem => {
-
-      if(guessItem.index === 0){
-        return {
-          ...guessItem,
-          isSelected: true
-        }
-
-      } else {
-        return {...guessItem}
-      }
-
-    })
-
-    setGuessWord([...guessObj])
-
-    console.log("effecte create guessWord baraya blanks-update e answerLatters")
-  }, [answerLetters])
-
-
-  const randomLetters = useMemo(() => getRandomLetters(answerLetters.length + 3), [])
-
-  // creating random letters and mix with answer letters
-  useEffect(() => {
-
-    
-    if(randomLetters.length > answerLetters.length){
-    for(let i = 0; i < answerLetters.length; i++){
-      randomLetters.pop()
-    }
-  }
-    for(let i = 0; i < answerLetters.length; i++){
-     randomLetters.push(answerLetters[i])
-    }
-
-    // console.log(randomLetters + " before")
-     shuffleArray(randomLetters)
-    // console.log(randomLetters + " after")
-
-    const objRandomLetters = randomLetters.map(letter => {
-      return {
-        value: letter,
-        copyValue: letter,
-        id: uniqid()
-      }
-    })
-
-
-    setLetters([...objRandomLetters])
-
-    console.log("effecte randomLetters-update answerLetters")
-  }, [answerLetters])
-
-
-
   
-  // selecting a blank 
-  const selectHandler = (id) => {
-    
-
-    setGuessWord(prevGuessWord => {
-
-      
-      return prevGuessWord.map(letter => {
-
-       if (letter.id === id){
-        return {
-          ...letter,
-          isSelected: true
-        }
-
-      } else {
-        
-        return {
-          ...letter,
-          isSelected: false
-        }
-       }
-      })
-      
-    })
-    console.log("select handler")
-  }
-
-
-  // removing a character from a blank
-  const dblClickHandler = (value, id) => {
-
-    setGuessWord(prevGuessWord => {
-
-      return prevGuessWord.map(letter => {
-        
-        if(letter.id === id && letter.value !== ""){
-          return {
-            ...letter,
-            value: ""
-          }
-        } else {
-          return letter
-        }
-      })
-    })
-
-    setLetters(pervLetters => {
-      return pervLetters.map(letter => {
-        if(letter.copyValue === value && letter.value === ""){
-          return {
-            ...letter,
-            value: letter.copyValue
-          }
-        } else {
-          return letter
-        }
-      })
-    })
-  }
-
-  // choosing a letter to palce in a blank
-  const chooseHandler = (value, id) => {
-
-    console.log(guessWord)
-    setGuessWord(prevGuessWord => {
-
-      const index = prevGuessWord.filter(item => item.isSelected === true)
-      return prevGuessWord.map(item => {
-        
-       console.log(index)
-        if(item.index === index[0].index){
-          return {
-            ...item,
-            value: value,
-            isSelected: false
-          }
-        } else if(item.index === index[0].index + 1){
-          return {
-            ...item,
-            isSelected: true
-          } 
-        } else {
-          return item
-        }
-      })
-    })
-
-    setLetters(pervLetters => {
-     return letters.map(letter => {
-        if(letter.id === id){
-          return {
-            ...letter,
-            value: ""
-          }
-        } else {
-          return letter
-        }
-      })
-    })
-    
-  }
 
 
   // checking if win 
@@ -261,7 +86,7 @@ function App() {
       setWin(false)
     }
     
-    console.log("effecte teste win-guess word update")
+    //console.log("effecte teste win-guess word update")
   }, [guessWord])
 
 
@@ -271,39 +96,35 @@ function App() {
     const answerWordStr = answerLetters.reduce((i, j) => {
       return i + j
     }, "")
-    //console.log(data)
-    console.log(answerLetters)
-    console.log(answerWordStr)
 
     const clueArr = data.filter(item => item.name === answerWordStr)
 
-
-    //console.log(clueArr)
-
     const clueObj = clueArr[0]
-
-    //console.log(clueObj)
     
     setClue(clueObj.clue)
   }
 
-    console.log("effecte clue- update answerLetters")
+    //console.log("effecte clue- update answerLetters")
   }, [answerLetters])
 
 
-console.log("app render akhar")
+//console.log("app render akhar")
   return (
     <div className="App">
       <h1>Hangman</h1>
-      <h3>{clue}</h3>
+      <h3>Clue: {clue}</h3>
       <Letters answerLetters={answerLetters}
-               chooseHandler={chooseHandler}
-               letters={letters}/>
+               setAnswerLetters={setAnswerLetters}
+               letters={letters}
+               setLetters={setLetters}
+               guessWord={guessWord}
+               setGuessWord={setGuessWord}/>
       <Blanks 
-          answerLetters={answerLetters} 
-          selectHandler={selectHandler}
-          dblClickHandler={dblClickHandler} 
-          guessWord={guessWord}/>
+               answerLetters={answerLetters}
+               setAnswerLetters={setAnswerLetters}
+               guessWord={guessWord}
+               setGuessWord={setGuessWord}
+               setLetters={setLetters}/>
 
           {win && <h1>You Won!</h1> }
  
