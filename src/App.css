@@ -1,6 +1,19 @@
+.App {
+    min-width: 35rem;
+    min-height: 35rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    margin-top: 15vh;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
 h1, h3 {
+    margin-top: 4rem;
     text-align: center;
-    margin-top: 10px;
+    
     margin-bottom: 20px;
 }
 
@@ -43,4 +56,35 @@ h1, h3 {
 
 .selected {
     border: 1px solid red;
+}
+
+.startBtn {
+    width: 10rem;
+    margin-top: 10rem;
+    height: 2rem;
+    border: none;
+    background-color: rgb(39, 91, 214);
+    border-radius: 10px;
+    color: #fff;
+}
+
+.winDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.winDiv button {
+    width: 10rem;
+    height: 2rem;
+    border: none;
+    background-color: rgb(39, 91, 214);
+    border-radius: 10px;
+    color: #fff;
+}
+
+.winDiv a {
+    color: #fff;
+    border-bottom: none;
 }
